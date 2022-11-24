@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>#I SUPPORT D.A FOR SECOND TERM | dapobiodun2023.com</title>
+    <meta name="description" content="D.A FOR SECOND TERM banner maker. Easy to use." />
+
+    <link rel="stylesheet" href="assets/styles/windi.css" />
+    <link
+      rel="shortcut icon"
+      href="assets/images/favicon.png"
+      type="image/x-icon"
+    />
+
+    <script src="libs/constants.js"></script>
+    <script src="libs/AlphineData.js"></script>
+    <script src="libs/BannerProcessor.js"></script>
+    <script src="libs/firebase.js" type="module"></script>
+
+    <script src="https://unpkg.com/merge-images" defer></script>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+  </head>
+
+  <body class="bg-white" x-data="{ states }">
+    <header class="border-secondary flex bg-secondary/10 border-b-4 p-4">
+      <div
+        class="container flex mx-auto max-w-screen-xl w-full text-gray-700 gap-8 justify-between items-center"
+      >
+        <a href="index.html">
+          <img src="assets/images/logo.webp" alt="∞" class="h-12" />
+        </a>
+        <h1 class="text-xs text-gray-700 uppercase">D.A FOR SECOND TERM banner maker</h1>
+      </div>
+    </header>
+
+    <main
+      class="container h-full mx-auto min-h-screen max-w-screen-md p-4 py-12 pb-20 justify-between"
+    >
+      <form
+        id="form-section"
+        onsubmit="BannerProcessor(event)"
+        class="max-w-md- grid gap-6 grid-cols-1"
+      >
+        <header class="pb-2">
+          <h1 class="font-medium text-primary text-3xl uppercase">
+            Let's get you <span class="text-accent">started</span>
+          </h1>
+          <h2 class="border-b text-sm py-2 text-gray-700">
+            Please fill the form below to continue
+          </h2>
+        </header>
+
+        <div class="grid gap-6 grid-cols-1 sm:grid-cols-2">
+          <label class="block">
+            <div class="text-sm pb-1 text-gray-600 uppercase">First Name:</div>
+            <input
+              required
+              type="text"
+              id="form-first-name"
+              placeholder="John"
+              class="bg-white border rounded border-primary/50 border-b-4 w-full p-4 focus:border-accent/75 focus:outline-0"
+            />
+          </label>
+
+          <label class="block">
+            <div class="text-sm pb-1 text-gray-600 uppercase">Last Name:</div>
+            <input
+              required
+              type="text"
+              id="form-last-name"
+              placeholder="Doe"
+              class="bg-white border rounded border-primary/50 border-b-4 w-full p-4 focus:border-accent/75 focus:outline-0"
+            />
+          </label>
+        </div>
+
+        <div class="grid gap-6 grid-cols-1 sm:grid-cols-2">
+          <label class="block">
+            <div class="text-sm pb-1 text-gray-600 uppercase">Occupation:</div>
+            <input
+              required
+              type="text"
+              id="form-occupation"
+              placeholder="Occupation"
+              class="bg-white border rounded border-primary/50 border-b-4 w-full p-4 focus:border-accent/75 focus:outline-0"
+            />
+          </label>
+
+          <label class="block">
+            <div class="text-sm pb-1 uppercase">State of residence:</div>
+            <select
+              required
+              id="form-state-residence"
+              class="bg-white border rounded border-primary/50 border-b-4 mr-4 w-full p-4 focus:border-accent/75 focus:outline-0"
+            >
+              <option value="" disabled selected>Select state</option>
+              <template x-for="state in states">
+                <option x-text="state"></option>
+              </template>
+            </select>
+          </label>
+        </div>
+
+        <label class="pb-2 block">
+          <div class="text-sm pb-1 uppercase">
+            Upload your photo:<br />
+            <i class="text-xs text-gray-600 capitalize">
+              We recommend square photos with the face centred (Portraits)
+            </i>
+          </div>
+          <input
+            required
+            type="file"
+            id="form-photo-upload"
+            accept="image/png, image/gif, image/jpeg"
+            class="bg-white border rounded border-b-4 border-primary/50 text-sm w-full p-4 file file:rounded-full file:text-xs file:text-white file:py-2 file:px-4 file:border-0 file:bg-primary/75 hover:file:border-accent/75 focus:border-accent/75 focus:outline-0"
+          />
+        </label>
+
+        <button
+          type="submit"
+          id="form-generate-button"
+          class="bg-primary rounded font-medium text-center text-white text-sm w-full p-4 py-4 uppercase inline-block hover:bg-primary/90"
+        >
+          Generate banner
+        </button>
+      </form>
+
+      <section id="download-section" class="py-8 hidden">
+        <div class="hidden">
+          <canvas id="text-layer-canvas"></canvas>
+          <canvas id="canvas-1"></canvas>
+          <canvas id="canvas-2"></canvas>
+        </div>
+
+        <div class="pb-8">
+          <h1 class="font-medium text-primary text-3xl uppercase">
+            Banner generated <span class="text-accent">successfully</span>
+          </h1>
+          <h2 class="border-b text-sm py-2 text-gray-700">
+            Please click on one of the banners below to download
+          </h2>
+        </div>
+
+        <div class="grid gap-6 grid-cols-2">
+          <a id="download-button-1" download="batified-banner.png">
+            <img
+              id="banner-img-1"
+              src="assets/images/banners/v02.webp"
+              class="border-accent mx-auto max-w-full border-2 p-1"
+            />
+          </a>
+
+          <a id="download-button-2" download="batified-banner.png">
+            <img
+              id="banner-img-2"
+              src="assets/images/banners/v03.webp"
+              class="border-accent mx-auto max-w-full border-2 p-1"
+            />
+          </a>
+        </div>
+
+        <a
+          href="v2.html"
+          class="bg-primary font-medium my-8 text-center text-white text-sm w-full p-4 py-4 uppercase inline-block hover:bg-primary/90"
+        >
+          Generate another banner
+        </a>
+      </section>
+    </main>
+
+    <footer
+      class="border-accent bg-accent/10 border-t-4 text-xs text-center p-8 text-gray-700"
+    >
+      <div id="copyright">
+
+      </div>
+
+      <div id="app-version" class="font-mono pt-4 text-gray-500">
+        #I SUPPORT D.A FOR SECOND TERM
+        <br>
+        Courtesy of  Dr HOB
+        <br>
+        Version 1.0 (beta)
+      </div>
+    </footer>
+  <!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "f6475cd3272f489a97a74d1bc41ff5a5"}'></script><!-- Cloudflare Pages Analytics --><script>(function(){var js = "window['__CF$cv$params']={r:'76dd3f0a5cce8891',m:'uImjdKZK2Q0e8CteE8flvT3yGmngWG_Zzub01.n1Ing-1669073773-0-ARNR26PQIgtM+zN8/1Tp2Orcu9ql9icrq4zueD9jze2zykfGDLixMmxjM2sRwwYpaTIDqWnTQt57xX96dJsNFmT5TOOwhtWtXkyHkIu1UKI7TN1PEKKrevXHRTHAvsz/QQ==',s:[0x144a5b58a3,0x594e03a936],u:'/cdn-cgi/challenge-platform/h/b'};var now=Date.now()/1000,offset=14400,ts=''+(Math.floor(now)-Math.floor(now%offset)),_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/h/b/scripts/alpha/invisible.js?ts='+ts,document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.nonce = '';_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+</html>
